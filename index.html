@@ -1,0 +1,1859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>GetPYQ — Previous Year Question Papers</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Sora:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+/* ═══════════════════════════════════════════════════════════
+   TOKENS & RESET
+═══════════════════════════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  /* Core palette — warm parchment + deep ink + academic crimson */
+  --ink:       #1a1410;
+  --ink-2:     #3d3530;
+  --ink-3:     #6b6058;
+  --paper:     #faf8f4;
+  --paper-2:   #f5f1ea;
+  --paper-3:   #ede8de;
+  --paper-4:   #e4ddd0;
+  --line:      #ddd7cb;
+
+  /* Brand crimson */
+  --cr:        #b5300a;
+  --cr-2:      #912508;
+  --cr-hi:     #d4420e;
+  --cr-tint:   #fff0eb;
+  --cr-tint-2: #fde3d8;
+
+  /* Gold accent */
+  --gd:        #b8862a;
+  --gd-tint:   #fdf6e3;
+  --gd-tint-2: #f7e9b8;
+
+  /* Semantic greens/blues for tags */
+  --tag-cs-bg:#ebf4ff;--tag-cs-fg:#1a5fa8;--tag-cs-bd:#b8d8f8;
+  --tag-me-bg:#fff4eb;--tag-me-fg:#9a3d0a;--tag-me-bd:#fad4b0;
+  --tag-el-bg:#f0fdf4;--tag-el-fg:#166534;--tag-el-bd:#a7f3c0;
+  --tag-cv-bg:#f5f3ff;--tag-cv-fg:#5b21b6;--tag-cv-bd:#c4b5fd;
+  --tag-ec-bg:#fff7ed;--tag-ec-fg:#c2410c;--tag-ec-bd:#fed7aa;
+  --tag-yr-bg:#fefce8;--tag-yr-fg:#854d0e;--tag-yr-bd:#fde68a;
+
+  /* Typography */
+  --ff-serif: 'Instrument Serif', Georgia, serif;
+  --ff-sans:  'Sora', system-ui, sans-serif;
+  --ff-mono:  'JetBrains Mono', 'Courier New', monospace;
+
+  /* Shadows */
+  --sh-xs: 0 1px 3px rgba(26,20,16,.06), 0 1px 2px rgba(26,20,16,.04);
+  --sh-sm: 0 2px 8px rgba(26,20,16,.08), 0 1px 3px rgba(26,20,16,.05);
+  --sh-md: 0 4px 20px rgba(26,20,16,.10), 0 2px 6px rgba(26,20,16,.06);
+  --sh-lg: 0 12px 48px rgba(26,20,16,.14), 0 4px 12px rgba(26,20,16,.07);
+  --sh-cr: 0 4px 24px rgba(181,48,10,.22);
+
+  --rad: 8px;
+  --rad-lg: 14px;
+  --rad-xl: 20px;
+  --tr: .2s cubic-bezier(.4,0,.2,1);
+}
+
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--ff-sans);
+  background:var(--paper);
+  color:var(--ink);
+  min-height:100vh;
+  overflow-x:hidden;
+  font-size:15px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   TEXTURE OVERLAY — subtle paper grain
+═══════════════════════════════════════════════════════════ */
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.025'/%3E%3C/svg%3E");
+  pointer-events:none;
+  z-index:0;
+  opacity:.6;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   HEADER / NAV
+═══════════════════════════════════════════════════════════ */
+header{
+  position:sticky;top:0;z-index:200;
+  background:rgba(250,248,244,.95);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--line);
+  padding:0 clamp(1.25rem,4vw,3rem);
+  display:flex;align-items:center;justify-content:space-between;
+  min-height:66px;gap:1.5rem;
+}
+/* thin accent line at top of header */
+header::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--cr) 0%,var(--gd) 50%,transparent 100%);
+}
+.logo-wrap{display:flex;align-items:center;gap:.6rem;text-decoration:none}
+.logo-img{height:34px;width:auto;display:block}
+.logo-text{
+  font-family:var(--ff-serif);font-size:1.3rem;color:var(--ink);
+  font-style:italic;letter-spacing:-.01em;
+}
+.header-nav{display:flex;align-items:center;gap:.25rem}
+.nav-link{
+  font-size:.82rem;font-weight:500;color:var(--ink-3);
+  text-decoration:none;padding:.38rem .85rem;
+  border-radius:6px;transition:all var(--tr);letter-spacing:.01em;
+}
+.nav-link:hover{color:var(--ink);background:var(--paper-3)}
+.nav-link.active{color:var(--cr);background:var(--cr-tint)}
+
+/* Menu button */
+.menu-btn{display:none}
+
+/* Upload button */
+.upload-btn{
+  display:flex;align-items:center;gap:.45rem;
+  padding:.52rem 1.15rem;font-family:var(--ff-sans);
+  font-size:.84rem;font-weight:600;border-radius:var(--rad);
+  border:1.5px solid transparent;cursor:pointer;
+  transition:all var(--tr);white-space:nowrap;text-decoration:none;line-height:1;
+  letter-spacing:.01em;
+  background:var(--cr);color:#fff;border-color:var(--cr);
+  box-shadow:var(--sh-cr);
+}
+.upload-btn:hover{background:var(--cr-2);border-color:var(--cr-2);transform:translateY(-1px);box-shadow:0 6px 28px rgba(181,48,10,.32)}
+
+/* ═══════════════════════════════════════════════════════════
+   MOBILE NAV DROPDOWN
+═══════════════════════════════════════════════════════════ */
+
+/* Hide mobile menu on desktop */
+.mobile-menu-wrap{display:none}
+
+/* Mobile breakpoint: hide nav links, show hamburger */
+@media(max-width:767px){
+  .header-nav{display:none}
+  .upload-btn{display:none}
+
+  /* Hamburger button */
+  .menu-btn{
+    display:flex;align-items:center;justify-content:center;
+    width:40px;height:40px;border-radius:10px;
+    background:var(--paper-2);border:1px solid var(--line);
+    cursor:pointer;flex-shrink:0;position:relative;
+    transition:all .22s ease;padding:0;z-index:300;
+  }
+  .menu-btn:hover{background:var(--cr);border-color:var(--cr)}
+  .menu-btn:hover .hb-bar{background:#fff}
+  .hb-bar{
+    display:block;width:18px;height:2px;
+    background:var(--ink-2);border-radius:2px;
+    transition:all .28s cubic-bezier(.4,0,.2,1);
+    position:absolute;left:50%;transform:translateX(-50%);
+  }
+  .hb-bar:nth-child(1){top:12px}
+  .hb-bar:nth-child(2){top:19px}
+  .hb-bar:nth-child(3){top:26px}
+  .menu-btn.open .hb-bar:nth-child(1){top:19px;transform:translateX(-50%) rotate(45deg)}
+  .menu-btn.open .hb-bar:nth-child(2){opacity:0;transform:translateX(-50%) scaleX(0)}
+  .menu-btn.open .hb-bar:nth-child(3){top:19px;transform:translateX(-50%) rotate(-45deg)}
+  .menu-btn.open{background:var(--cr);border-color:var(--cr)}
+  .menu-btn.open .hb-bar{background:#fff}
+
+  /* Dropdown container sits right below sticky header */
+  .mobile-menu-wrap{
+    display:block;
+    position:sticky;top:56px;z-index:250;
+    pointer-events:none;
+  }
+  .mobile-menu{
+    background:linear-gradient(160deg,#ffffff 0%,var(--paper-2) 100%);
+    border-bottom:1px solid var(--line);
+    box-shadow:0 12px 40px rgba(26,20,16,.13),0 2px 8px rgba(26,20,16,.06);
+    overflow:hidden;
+    /* Slide animation */
+    max-height:0;
+    opacity:0;
+    transform:translateY(-8px);
+    transition:max-height .38s cubic-bezier(.4,0,.2,1),
+               opacity .3s ease,
+               transform .3s cubic-bezier(.4,0,.2,1);
+    pointer-events:none;
+    position:relative;
+  }
+  /* Crimson accent line */
+  .mobile-menu::before{
+    content:'';position:absolute;top:0;left:0;right:0;height:2px;
+    background:linear-gradient(90deg,var(--cr),var(--gd),transparent);
+  }
+  .mobile-menu.open{
+    max-height:480px;
+    opacity:1;
+    transform:translateY(0);
+    pointer-events:all;
+  }
+  .mn-inner{padding:.75rem .9rem 1rem}
+
+  /* Upload CTA row */
+  .mn-upload-row{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:.65rem .9rem .5rem;
+    border-bottom:1px solid var(--line);
+    margin-bottom:.5rem;
+  }
+  .mn-upload-label{
+    font-family:var(--ff-mono);font-size:.6rem;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--ink-3);
+  }
+  .mn-upload-btn{
+    display:inline-flex;align-items:center;gap:.4rem;
+    padding:.42rem .9rem;background:var(--cr);color:#fff;
+    border:none;border-radius:7px;font-family:var(--ff-sans);
+    font-size:.78rem;font-weight:600;cursor:pointer;
+    transition:all .2s ease;box-shadow:var(--sh-cr);
+  }
+  .mn-upload-btn:hover{background:var(--cr-2);transform:translateY(-1px)}
+  .mn-upload-btn svg{width:12px;height:12px;stroke:#fff;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+
+  /* Nav items grid */
+  .mn-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:.45rem;
+    padding:.1rem 0;
+  }
+  .mn-item{
+    display:flex;align-items:center;gap:.7rem;
+    padding:.7rem .85rem;
+    border-radius:10px;
+    text-decoration:none;color:var(--ink);
+    background:#fff;border:1px solid var(--line);
+    transition:all .2s ease;cursor:pointer;
+    box-shadow:0 1px 4px rgba(26,20,16,.05);
+    position:relative;overflow:hidden;
+  }
+  .mn-item::after{
+    content:'';position:absolute;inset:0;
+    background:var(--cr);opacity:0;
+    transition:opacity .2s ease;border-radius:10px;
+  }
+  .mn-item:hover{border-color:var(--cr);transform:translateY(-2px);box-shadow:0 4px 14px rgba(181,48,10,.15)}
+  .mn-item:hover::after{opacity:.04}
+  .mn-item:hover .mn-icon{background:var(--cr);border-color:var(--cr)}
+  .mn-item:hover .mn-icon svg{stroke:#fff}
+  .mn-item:hover .mn-label{color:var(--cr)}
+  .mn-item.active{border-color:var(--cr);background:var(--cr-tint)}
+  .mn-item.active .mn-icon{background:var(--cr);border-color:var(--cr)}
+  .mn-item.active .mn-icon svg{stroke:#fff}
+  .mn-item.active .mn-label{color:var(--cr)}
+
+  .mn-icon{
+    width:30px;height:30px;border-radius:8px;flex-shrink:0;
+    background:var(--paper-2);border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;
+    transition:all .2s ease;
+  }
+  .mn-icon svg{width:13px;height:13px;stroke:var(--ink-3);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:stroke .2s}
+  .mn-label{font-size:.8rem;font-weight:600;color:var(--ink);line-height:1;transition:color .2s;position:relative;z-index:1}
+  .mn-badge{
+    position:absolute;top:6px;right:7px;
+    font-family:var(--ff-mono);font-size:.5rem;font-weight:700;
+    padding:.1rem .35rem;border-radius:3px;
+    background:var(--cr);color:#fff;
+    letter-spacing:.04em;
+  }
+
+  /* Footer pills */
+  .mn-footer{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:.6rem .9rem .1rem;
+    border-top:1px solid var(--line);
+    margin-top:.5rem;
+  }
+  .mn-footer-copy{font-family:var(--ff-mono);font-size:.58rem;color:var(--ink-3)}
+  .mn-pills{display:flex;gap:.35rem}
+  .mn-pill{
+    font-family:var(--ff-mono);font-size:.54rem;padding:.16rem .4rem;
+    border-radius:4px;border:1px solid var(--line);color:var(--ink-3);background:#fff;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MODAL — Upload Form
+═══════════════════════════════════════════════════════════ */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(26,20,16,0);
+  z-index:220;pointer-events:none;transition:background .32s ease;
+  backdrop-filter:blur(0px);-webkit-backdrop-filter:blur(0px);
+}
+.modal-overlay.active{
+  background:rgba(26,20,16,.5);pointer-events:all;
+  backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);
+}
+.upload-modal{
+  position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
+  z-index:230;opacity:0;pointer-events:none;transition:opacity .32s ease;
+  padding:1.5rem;
+}
+.upload-modal.active{opacity:1;pointer-events:all}
+.modal-content{
+  background:#fff;border-radius:16px;box-shadow:var(--sh-lg);
+  max-width:520px;width:100%;max-height:85vh;display:flex;flex-direction:column;
+  overflow:hidden;animation:slideUp .38s cubic-bezier(.4,0,.2,1);
+}
+@keyframes slideUp{from{transform:translateY(40px);opacity:0}to{transform:translateY(0);opacity:1}}
+
+.modal-header{
+  padding:1.5rem 1.5rem 1rem;border-bottom:1px solid var(--line);
+  display:flex;align-items:center;justify-content:space-between;flex-shrink:0;
+  background:linear-gradient(135deg,#fff 0%,var(--paper-2) 100%);
+}
+.modal-title{
+  font-size:1.4rem;font-family:var(--ff-serif);color:var(--ink);
+  font-style:italic;margin:0;font-weight:400;
+}
+.modal-close-btn{
+  width:38px;height:38px;display:flex;align-items:center;justify-content:center;
+  background:transparent;border:1px solid var(--line);border-radius:8px;
+  cursor:pointer;color:var(--ink-3);transition:all var(--tr);flex-shrink:0;
+}
+.modal-close-btn:hover{border-color:var(--ink);color:var(--ink);background:var(--paper-2);transform:rotate(90deg)}
+.modal-close-btn svg{display:block;width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
+
+.modal-body{
+  flex:1;overflow-y:auto;padding:1.5rem;
+}
+.modal-body::-webkit-scrollbar{width:4px}
+.modal-body::-webkit-scrollbar-thumb{background:var(--line);border-radius:4px}
+.modal-body::-webkit-scrollbar-track{background:transparent}
+
+.upload-form{display:flex;flex-direction:column;gap:1.8rem}
+
+/* Dropzone */
+.upload-dropzone{
+  background:linear-gradient(135deg,#fff,var(--paper-2));
+  border:2px dashed var(--line);border-radius:14px;
+  padding:2rem 1.5rem;text-align:center;cursor:pointer;transition:all .24s ease;
+}
+.upload-dropzone:hover{border-color:var(--cr);border-style:solid;background:var(--cr-tint)}
+.upload-dropzone.active{border-color:var(--cr);border-style:solid;background:var(--cr-tint);box-shadow:0 0 0 3px rgba(181,48,10,.1)}
+
+.dropzone-icon{
+  width:52px;height:52px;background:var(--cr-tint);border:1.5px solid var(--cr-tint-2);
+  border-radius:14px;display:flex;align-items:center;justify-content:center;
+  margin:0 auto 1rem;transition:all .2s ease;
+}
+.upload-dropzone:hover .dropzone-icon{background:var(--cr-hi);border-color:var(--cr-hi);transform:scale(1.1)}
+.dropzone-icon svg{width:24px;height:24px;stroke:var(--cr);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.upload-dropzone:hover .dropzone-icon svg{stroke:#fff}
+
+.dropzone-content{pointer-events:none}
+.dropzone-title{font-size:.96rem;font-weight:700;color:var(--ink);margin-bottom:.25rem}
+.dropzone-sub{font-size:.78rem;color:var(--ink-3);font-family:var(--ff-mono)}
+
+/* Filters */
+.upload-filters{margin-top:.5rem}
+.upload-section-title{
+  font-size:.82rem;font-weight:600;color:var(--ink);margin-bottom:1rem;
+  font-family:var(--ff-sans);text-transform:uppercase;letter-spacing:.08em;
+  opacity:.7;
+}
+.upload-filter-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:.8rem;
+}
+.upload-filter-full{grid-column:1/-1}
+.upload-filter-field{display:flex;flex-direction:column;gap:.35rem}
+
+.upload-filter-label{
+  font-family:var(--ff-mono);font-size:.65rem;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--ink-3);font-weight:500;
+}
+.upload-filter-select,
+.upload-filter-input{
+  width:100%;padding:.42rem .8rem;padding-right:1.9rem;
+  background:#fff;border:1px solid var(--line);border-radius:7px;
+  font-family:var(--ff-sans);font-size:.82rem;color:var(--ink);
+  cursor:pointer;appearance:none;transition:border-color var(--tr);
+  font-weight:400;
+}
+.upload-filter-select{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%236b6058' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right .7rem center;
+  padding-right:2rem;
+}
+.upload-filter-select:focus,
+.upload-filter-input:focus{
+  outline:none;border-color:var(--cr);box-shadow:0 0 0 3px rgba(181,48,10,.08);
+}
+.upload-filter-input{padding-right:.8rem}
+
+/* Submit Button */
+.upload-submit-btn{
+  width:100%;display:flex;align-items:center;justify-content:center;gap:.6rem;
+  padding:.68rem 1.3rem;background:var(--cr);color:#fff;
+  border:none;border-radius:9px;font-family:var(--ff-sans);font-size:.88rem;font-weight:600;
+  cursor:pointer;transition:all var(--tr);box-shadow:var(--sh-cr);
+  letter-spacing:.02em;margin-top:.5rem;
+}
+.upload-submit-btn:hover{background:var(--cr-2);transform:translateY(-2px);box-shadow:0 8px 32px rgba(181,48,10,.4)}
+.upload-submit-btn:active{transform:translateY(0)}
+.upload-submit-btn svg{width:16px;height:16px;stroke:#fff;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+
+.upload-footer-note{
+  margin-top:1rem;font-size:.76rem;
+  color:var(--ink-3);display:flex;align-items:center;justify-content:center;gap:.4rem;
+  text-align:center;font-family:var(--ff-mono);
+}
+.upload-footer-note svg{
+  width:12px;height:12px;flex-shrink:0;stroke:var(--ink-3);fill:none;stroke-width:1.8;stroke-linecap:round;
+}
+
+/* Responsive */
+@media(max-width:580px){
+  .modal-content{max-height:90vh;border-radius:16px 16px 0 0;margin:auto auto 0}
+  .upload-filter-grid{grid-template-columns:1fr}
+  .upload-filter-full{grid-column:auto}
+}
+
+/* ═══════════════════════════════════════════════════════════
+   BUTTONS
+═══════════════════════════════════════════════════════════ */
+.btn{
+  display:inline-flex;align-items:center;gap:.45rem;
+  padding:.52rem 1.15rem;font-family:var(--ff-sans);
+  font-size:.84rem;font-weight:600;border-radius:var(--rad);
+  border:1.5px solid transparent;cursor:pointer;
+  transition:all var(--tr);white-space:nowrap;text-decoration:none;line-height:1;
+  letter-spacing:.01em;
+}
+.btn-primary{
+  background:var(--cr);color:#fff;border-color:var(--cr);
+  box-shadow:var(--sh-cr);
+}
+.btn-primary:hover{background:var(--cr-2);border-color:var(--cr-2);transform:translateY(-1px);box-shadow:0 6px 28px rgba(181,48,10,.32)}
+.btn-outline{background:transparent;color:var(--ink);border-color:var(--ink-2)}
+.btn-outline:hover{background:var(--ink);color:#fff}
+.btn-ghost{background:transparent;color:var(--ink-3);border-color:var(--line)}
+.btn-ghost:hover{border-color:var(--ink);color:var(--ink);background:var(--paper-3)}
+.btn-sm{padding:.32rem .72rem;font-size:.78rem}
+.btn-lg{padding:.7rem 1.65rem;font-size:.93rem}
+
+/* ═══════════════════════════════════════════════════════════
+   HERO — editorial / semi-official
+═══════════════════════════════════════════════════════════ */
+.hero{
+  position:relative;overflow:hidden;
+  padding:clamp(3.5rem,7vw,6rem) 3.5rem clamp(2.5rem,5vw,4rem);
+  background:
+    linear-gradient(180deg,#fff 0%,var(--paper) 100%);
+  border-bottom:1px solid var(--line);
+}
+
+/* Decorative halftone / dot grid */
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background-image:radial-gradient(circle,rgba(181,48,10,.055) 1px, transparent 1px);
+  background-size:24px 24px;
+  pointer-events:none;mask-image:radial-gradient(ellipse 80% 80% at 100% 0%,black 30%,transparent 80%);
+}
+/* Warm glow top-right */
+.hero::after{
+  content:'';position:absolute;top:-100px;right:-120px;
+  width:700px;height:700px;
+  background:radial-gradient(ellipse,rgba(184,134,42,.1) 0%,rgba(181,48,10,.05) 40%,transparent 70%);
+  pointer-events:none;
+}
+
+
+
+.hero-inner{
+  max-width:1300px;margin:0 auto;position:relative;z-index:1;
+  display:grid;grid-template-columns:1fr 600px;gap:4rem;align-items:center;
+}
+@media(max-width:920px){.hero-inner{grid-template-columns:1fr;gap:3rem}}
+
+/* Badge */
+.hero-badge{
+  display:inline-flex;align-items:center;gap:.5rem;
+  padding:.32rem 1rem .32rem .6rem;
+  background:linear-gradient(135deg,var(--gd-tint),#fffef5);
+  border:1px solid var(--gd-tint-2);border-radius:30px;
+  font-family:var(--ff-mono);font-size:.66rem;color:#7a5500;
+  margin-bottom:1.6rem;letter-spacing:.04em;
+  box-shadow:0 2px 12px rgba(184,134,42,.15);
+  animation:fadeUp .5s ease both;
+}
+.hero-badge-dot{
+  width:6px;height:6px;background:var(--gd);border-radius:50%;
+  animation:pulse 2s infinite;box-shadow:0 0 6px rgba(184,134,42,.5);
+  flex-shrink:0;
+}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
+
+/* Heading */
+.hero h1{
+  font-family:var(--ff-serif);
+  font-size:clamp(2.6rem,5.5vw,4.4rem);
+  font-weight:400;line-height:1.06;
+  letter-spacing:-.02em;
+  color:var(--ink);
+  animation:fadeUp .55s .05s ease both;
+}
+.hero-h1-lead{
+  display:block;
+  font-family:var(--ff-sans);font-size:clamp(.9rem,1.5vw,1.05rem);
+  font-weight:500;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--cr);margin-bottom:.6rem;
+}
+.hero-h1-em{
+  color:var(--cr);font-style:italic;
+}
+.hero-h1-light{
+  display:block;
+  font-family:var(--ff-sans);font-weight:300;
+  font-size:clamp(.95rem,1.8vw,1.2rem);
+  color:var(--ink-3);letter-spacing:.02em;
+  margin-top:.6rem;
+}
+/* Underline decoration under heading */
+.hero-h1-underline{
+  display:block;width:72px;height:3px;margin:.9rem 0 1.2rem;
+  background:linear-gradient(90deg,var(--cr),var(--gd),transparent);
+  border-radius:2px;animation:fadeUp .5s .08s ease both;
+}
+
+/* Sub paragraph */
+.hero-p{
+  color:var(--ink-2);font-size:clamp(.9rem,1.4vw,1.05rem);
+  max-width:520px;line-height:1.8;
+  animation:fadeUp .55s .1s ease both;
+  font-weight:400;
+}
+.hero-p strong{color:var(--ink);font-weight:600}
+
+/* Buttons */
+.hero-btns{display:flex;gap:.8rem;margin-top:1.75rem;flex-wrap:wrap;animation:fadeUp .5s .13s ease both}
+@media(max-width:500px){.hero-btns{display:grid;grid-template-columns:1fr 1fr}}
+
+/* Stats */
+.hero-stats{display:flex;gap:.6rem;margin-top:2.4rem;flex-wrap:wrap;animation:fadeUp .5s .15s ease both}
+@media(max-width:500px){.hero-stats{display:grid;grid-template-columns:1fr 1fr}}
+.hero-stat-card{
+  display:flex;align-items:center;gap:.7rem;
+  padding:.65rem .95rem;background:#fff;
+  border:1px solid var(--line);border-radius:10px;
+  box-shadow:var(--sh-xs);transition:all var(--tr);
+}
+.hero-stat-card:hover{border-color:var(--cr);transform:translateY(-2px);box-shadow:var(--sh-md)}
+.hero-stat-icon{
+  width:34px;height:34px;border-radius:8px;
+  background:var(--cr-tint);border:1px solid var(--cr-tint-2);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.hero-stat-icon svg{width:14px;height:14px;stroke:var(--cr);fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.hero-stat-icon.green{background:#f0fdf4;border-color:#a7f3c0}
+.hero-stat-icon.green svg{stroke:#166534}
+.hero-stat-icon.blue{background:#ebf4ff;border-color:#b8d8f8}
+.hero-stat-icon.blue svg{stroke:#1a5fa8}
+.hero-stat-icon.gold{background:var(--gd-tint);border-color:var(--gd-tint-2)}
+.hero-stat-icon.gold svg{stroke:var(--gd)}
+.hero-stat-num{font-family:var(--ff-serif);font-size:clamp(1.2rem,2.5vw,1.6rem);color:var(--ink);line-height:1;font-weight:700;font-style:normal;letter-spacing:0.01em}
+.hero-stat-label{font-size:.62rem;color:var(--ink-3);margin-top:.1rem;font-family:var(--ff-mono);text-transform:uppercase;letter-spacing:.06em}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── Hero right: paper cards ────────────────────────────── */
+.hero-visual{
+  display:flex;flex-direction:column;gap:.8rem;
+  animation:fadeUp .6s .18s ease both;
+  position:relative;
+}
+@media(max-width:920px){.hero-visual{display:none}}
+
+/* Visual watermark label */
+.hero-visual-tag{
+  display:inline-flex;align-items:center;gap:.4rem;
+  padding:.26rem .7rem .26rem .45rem;
+  background:#f0fdf4;border:1px solid #bbf7d0;border-radius:30px;
+  font-family:var(--ff-mono);font-size:.59rem;color:#166534;letter-spacing:.04em;
+  align-self:flex-start;margin-bottom:.15rem;
+}
+.vt-dot{width:5px;height:5px;border-radius:50%;background:#16a34a;animation:pulse 2s infinite;flex-shrink:0}
+
+/* Individual paper cards */
+.paper-card{
+  background:#fff;border:1px solid var(--line);border-radius:12px;
+  padding:1rem 1.15rem;min-width:280px;
+  box-shadow:var(--sh-sm);transition:transform .28s ease,box-shadow .28s ease;
+  position:relative;overflow:hidden;
+}
+.paper-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2.5px;
+  background:linear-gradient(90deg,var(--cr),var(--gd));
+}
+.paper-card:hover{transform:translateY(-3px);box-shadow:var(--sh-lg)}
+.paper-card:nth-child(3){transform:translateX(14px)}
+.paper-card:nth-child(3):hover{transform:translateX(14px) translateY(-3px)}
+.paper-card:nth-child(4){transform:translateX(7px)}
+.paper-card:nth-child(4):hover{transform:translateX(7px) translateY(-3px)}
+.pc-label{font-family:var(--ff-mono);font-size:.6rem;text-transform:uppercase;letter-spacing:.1em;color:var(--cr);margin-bottom:.38rem}
+.pc-title{font-family:var(--ff-serif);font-size:.93rem;font-style:italic;color:var(--ink);line-height:1.3;margin-bottom:.5rem}
+.pc-tags{display:flex;gap:.3rem;flex-wrap:wrap}
+.pc-tag{font-family:var(--ff-mono);font-size:.59rem;padding:.13rem .42rem;border-radius:3px;font-weight:500}
+.pc-tag.cs{background:var(--tag-cs-bg);color:var(--tag-cs-fg);border:1px solid var(--tag-cs-bd)}
+.pc-tag.me{background:var(--tag-me-bg);color:var(--tag-me-fg);border:1px solid var(--tag-me-bd)}
+.pc-tag.s{background:var(--tag-el-bg);color:var(--tag-el-fg);border:1px solid var(--tag-el-bd)}
+.pc-tag.y{background:var(--tag-yr-bg);color:var(--tag-yr-fg);border:1px solid var(--tag-yr-bd)}
+
+/* Browse section full width */
+#browse .container{max-width:none;padding:0 3.5rem}
+
+/* ═══════════════════════════════════════════════════════════
+   STATS STRIP
+═══════════════════════════════════════════════════════════ */
+.stats-strip{
+  background:var(--ink);padding:1.4rem 0;
+  border-bottom:1px solid rgba(244,240,232,.05);
+  position:relative;overflow:hidden;
+}
+.stats-strip::before{
+  content:'';position:absolute;inset:0;
+  background-image:radial-gradient(circle,rgba(255,255,255,.02) 1px, transparent 1px);
+  background-size:20px 20px;pointer-events:none;
+}
+.stats-inner{display:flex;align-items:center;justify-content:center;gap:0;flex-wrap:wrap;max-width:1300px;margin:0 auto;padding:0 1.5rem}
+.stats-item{display:flex;flex-direction:column;align-items:center;padding:0 2.5rem;position:relative}
+.stats-item+.stats-item::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);height:32px;width:1px;background:rgba(244,240,232,.1)}
+.stats-num{font-family:var(--ff-serif);font-size:1.55rem;font-style:italic;color:var(--paper)}
+.stats-lbl{font-family:var(--ff-mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(244,240,232,.38);margin-top:.15rem}
+
+/* ═══════════════════════════════════════════════════════════
+   SECTION COMMONS
+═══════════════════════════════════════════════════════════ */
+.section{padding:clamp(.75rem,1.5vw,1.25rem) 0}
+.container{max-width:1300px;margin:0;padding:0 0.9rem}
+.section-label{
+  font-family:var(--ff-mono);font-size:.68rem;font-weight:500;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--cr);
+  margin-bottom:.65rem;display:flex;align-items:center;gap:.5rem;
+}
+.section-label::before{content:'';display:block;width:18px;height:1.5px;background:var(--cr)}
+.section-title{
+  font-family:var(--ff-serif);font-size:clamp(1.5rem,2.8vw,2.2rem);
+  font-style:italic;color:var(--ink);line-height:1.15;
+}
+.section-title em{color:var(--cr);font-style:italic}
+.section-sub{color:var(--ink-3);font-size:.93rem;margin-top:.5rem;max-width:500px;line-height:1.65}
+.section-header{display:flex;align-items:flex-end;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:2rem}
+
+/* ═══════════════════════════════════════════════════════════
+   BROWSE / TOOLBAR
+═══════════════════════════════════════════════════════════ */
+.toolbar{
+  background:var(--paper-2);border:1px solid var(--line);
+  border-radius:var(--rad-lg);padding:1.15rem;
+  display:grid;grid-template-columns:1fr 1fr;gap:.6rem;
+  margin-bottom:1.5rem;
+  box-shadow:var(--sh-xs);
+}
+.filter-select{
+  width:100%;padding:.48rem .95rem;padding-right:2.4rem;
+  background:#fff;border:1px solid var(--line);
+  border-radius:6px;font-family:var(--ff-sans);font-size:.85rem;
+  color:var(--ink);cursor:pointer;transition:border-color var(--tr);
+  appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b6058' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right .85rem center;
+  box-shadow:var(--sh-xs);
+}
+.filter-select:focus{outline:none;border-color:var(--cr);box-shadow:0 0 0 3px rgba(181,48,10,.08)}
+.filter-select-full{grid-column:1/-1}
+.toolbar-bottom{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;margin-top:.15rem;flex-wrap:wrap;gap:.5rem}
+.toolbar-count{font-size:.8rem;color:var(--ink-3);font-family:var(--ff-mono)}
+
+/* ═══════════════════════════════════════════════════════════
+   PAPERS GRID & CARDS
+═══════════════════════════════════════════════════════════ */
+.papers-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,280px),1fr));gap:1.15rem}
+
+.card{
+  background:#fff;border:1px solid var(--line);
+  border-radius:var(--rad-lg);overflow:hidden;
+  display:flex;flex-direction:column;transition:all var(--tr);
+  position:relative;
+  box-shadow:var(--sh-xs);
+}
+.card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--cr),var(--gd),transparent);
+  opacity:0;transition:opacity var(--tr);
+}
+.card:hover{transform:translateY(-3px);box-shadow:var(--sh-lg);border-color:var(--cr)}
+.card:hover::before{opacity:1}
+.card-body{padding:1.1rem 1.15rem;flex:1;display:flex;flex-direction:column;gap:.55rem}
+.card-subject{
+  font-family:var(--ff-serif);font-size:1.02rem;font-style:italic;
+  color:var(--ink);line-height:1.3;
+}
+.card-meta{display:flex;align-items:center;gap:.4rem;font-family:var(--ff-mono);font-size:.67rem;color:var(--ink-3)}
+.card-meta-dot{width:2.5px;height:2.5px;background:var(--line);border-radius:50%}
+.card-tags{display:flex;flex-wrap:wrap;gap:.32rem}
+.tag{display:inline-block;padding:.16rem .52rem;border-radius:3px;font-family:var(--ff-mono);font-size:.65rem;font-weight:500;text-transform:uppercase;border:1px solid transparent}
+.tag-branch{background:var(--tag-yr-bg);color:var(--tag-yr-fg);border-color:var(--tag-yr-bd)}
+.tag-sem{background:var(--tag-cs-bg);color:var(--tag-cs-fg);border-color:var(--tag-cs-bd)}
+.tag-year{background:var(--tag-el-bg);color:var(--tag-el-fg);border-color:var(--tag-el-bd)}
+.tag-hot{background:var(--cr-tint);color:var(--cr);border-color:var(--cr-tint-2)}
+
+.card-footer{
+  padding:.85rem 1.15rem;
+  border-top:1px solid var(--paper-3);
+  display:flex;gap:.45rem;align-items:center;
+  background:var(--paper);
+}
+.card-footer .btn{
+  flex:1;justify-content:center;padding:.52rem .7rem;
+  font-size:.8rem;font-weight:600;border-radius:7px;gap:.38rem;
+}
+.card-footer .btn-primary{background:var(--cr);color:#fff;border-color:var(--cr);box-shadow:none}
+.card-footer .btn-primary:hover{background:var(--cr-2);border-color:var(--cr-2);transform:translateY(-1px);box-shadow:var(--sh-cr)}
+.card-footer .btn-ghost{background:transparent;color:var(--ink-2);border:1px solid var(--line)}
+.card-footer .btn-ghost:hover{background:var(--ink);color:#fff;border-color:var(--ink);transform:translateY(-1px)}
+
+.btn-wa{
+  background:transparent;color:#25D366;border:1px solid #25D366;
+  padding:.5rem .58rem;font-size:.78rem;border-radius:7px;
+  flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;
+  transition:all .2s ease;cursor:pointer;
+}
+.btn-wa:hover{background:#25D366;color:#fff;transform:translateY(-1px);box-shadow:0 4px 14px rgba(37,211,102,.3)}
+.btn-wa svg{display:block;width:16px;height:16px;fill:currentColor}
+
+/* ═══════════════════════════════════════════════════════════
+   CONTRIBUTE
+═══════════════════════════════════════════════════════════ */
+.contribute-section{
+  background:var(--paper);padding:clamp(3.5rem,6vw,5.5rem) 0;
+  border-top:1px solid var(--line);position:relative;overflow:hidden;
+}
+.contribute-section::after{
+  content:'';position:absolute;top:-40px;right:-60px;
+  width:300px;height:300px;
+  background:radial-gradient(circle,rgba(184,134,42,.08) 0%,transparent 70%);
+  pointer-events:none;
+}
+.contribute-inner{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:clamp(2.5rem,5vw,5rem);align-items:center;position:relative;z-index:1;
+}
+@media(max-width:780px){.contribute-inner{grid-template-columns:1fr;gap:2.5rem}}
+.contribute-eyebrow{
+  display:inline-flex;align-items:center;gap:.5rem;
+  font-family:var(--ff-mono);font-size:.67rem;letter-spacing:.12em;text-transform:uppercase;color:var(--cr);
+  margin-bottom:.9rem;
+}
+.contribute-eyebrow::before{content:'';display:block;width:18px;height:1.5px;background:var(--cr)}
+.contribute-copy h2{
+  font-family:var(--ff-serif);font-size:clamp(1.65rem,3vw,2.4rem);
+  font-style:italic;color:var(--ink);line-height:1.15;margin-bottom:.85rem;
+}
+.contribute-copy h2 em{color:var(--cr)}
+.contribute-copy > p{font-size:.93rem;color:var(--ink-3);line-height:1.7;max-width:400px;margin-bottom:1.65rem}
+.contribute-perks{display:flex;flex-direction:column;gap:.7rem;margin-bottom:1.8rem}
+.perk-row{display:flex;align-items:flex-start;gap:.8rem}
+.perk-icon{
+  width:32px;height:32px;border-radius:8px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;border:1px solid transparent;
+  transition:transform var(--tr);
+}
+.perk-icon.rust{background:var(--cr-tint);border-color:var(--cr-tint-2)}
+.perk-icon.gold{background:var(--gd-tint);border-color:var(--gd-tint-2)}
+.perk-icon.green{background:#f0fdf4;border-color:#a7f3c0}
+.perk-icon svg{display:block;width:14px;height:14px;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;fill:none}
+.perk-icon.rust svg{stroke:var(--cr)}
+.perk-icon.gold svg{stroke:var(--gd)}
+.perk-icon.green svg{stroke:#16a34a}
+.perk-row:hover .perk-icon{transform:scale(1.1)}
+.perk-title{font-size:.84rem;font-weight:600;color:var(--ink);line-height:1.3}
+.perk-desc{font-size:.75rem;color:var(--ink-3);line-height:1.5;margin-top:.08rem;font-family:var(--ff-mono)}
+.contribute-actions{display:flex;gap:.8rem;flex-wrap:wrap}
+
+/* Upload card */
+.contribute-upload-card{
+  background:#fff;border:1px solid var(--line);
+  border-radius:var(--rad-xl);padding:1.65rem;box-shadow:var(--sh-md);
+  position:relative;overflow:hidden;
+}
+.contribute-upload-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2.5px;
+  background:linear-gradient(90deg,var(--cr),var(--gd));border-radius:20px 20px 0 0;
+}
+.upload-card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.15rem}
+.upload-card-title{font-family:var(--ff-serif);font-size:1.02rem;font-style:italic;color:var(--ink)}
+.upload-card-badge{
+  font-family:var(--ff-mono);font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;
+  padding:.22rem .6rem;background:var(--cr-tint);color:var(--cr);border:1px solid var(--cr-tint-2);border-radius:20px;
+}
+.upload-dropzone{
+  border:1.5px dashed var(--line);border-radius:12px;
+  padding:1.8rem 1.25rem;text-align:center;
+  background:var(--paper-2);cursor:pointer;
+  transition:all .22s ease;position:relative;overflow:hidden;margin-bottom:1.15rem;
+}
+.upload-dropzone:hover{border-color:var(--cr);border-style:solid;background:var(--cr-tint)}
+.upload-dropzone:hover .dz-icon-wrap{background:var(--cr);border-color:var(--cr)}
+.upload-dropzone:hover .dz-icon-wrap svg{stroke:#fff}
+.dz-icon-wrap{
+  width:48px;height:48px;border-radius:12px;
+  background:#fff;border:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto .8rem;transition:all .25s cubic-bezier(.34,1.56,.64,1);
+  box-shadow:var(--sh-xs);
+}
+.dz-icon-wrap svg{width:20px;height:20px;stroke:var(--cr);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:stroke .2s}
+.dz-title{font-size:.86rem;font-weight:700;color:var(--ink);margin-bottom:.25rem}
+.dz-sub{font-size:.7rem;color:var(--ink-3);font-family:var(--ff-mono)}
+.dz-formats{display:flex;gap:.35rem;justify-content:center;flex-wrap:wrap;margin-top:.8rem}
+.dz-fmt{font-family:var(--ff-mono);font-size:.59rem;padding:.15rem .5rem;border-radius:4px;background:#fff;border:1px solid var(--line);color:var(--ink-3)}
+.upload-meta-row{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:.95rem}
+.upload-meta-field{display:flex;flex-direction:column;gap:.22rem}
+.upload-meta-label{font-family:var(--ff-mono);font-size:.59rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+.upload-meta-select{
+  width:100%;padding:.36rem .8rem;padding-right:1.9rem;
+  background:#fff;border:1px solid var(--line);border-radius:6px;
+  font-family:var(--ff-sans);font-size:.8rem;color:var(--ink);
+  cursor:pointer;appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%236b6058' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right .65rem center;
+  transition:border-color var(--tr);
+}
+.upload-meta-select:focus{outline:none;border-color:var(--cr);box-shadow:0 0 0 3px rgba(181,48,10,.07)}
+.upload-submit-btn{
+  width:100%;display:flex;align-items:center;justify-content:center;gap:.5rem;
+  padding:.62rem 1.2rem;background:var(--cr);color:#fff;
+  border:none;border-radius:8px;font-family:var(--ff-sans);font-size:.87rem;font-weight:600;
+  cursor:pointer;transition:all var(--tr);box-shadow:var(--sh-cr);
+}
+.upload-submit-btn:hover{background:var(--cr-2);transform:translateY(-1px);box-shadow:0 6px 24px rgba(181,48,10,.35)}
+.upload-submit-btn svg{width:14px;height:14px;stroke:#fff;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.upload-card-footer-note{
+  margin-top:.8rem;text-align:center;
+  font-family:var(--ff-mono);font-size:.61rem;color:var(--ink-3);
+  display:flex;align-items:center;justify-content:center;gap:.4rem;
+}
+.upload-card-footer-note svg{width:10px;height:10px;stroke:var(--ink-3);fill:none;stroke-width:2;stroke-linecap:round}
+
+/* ═══════════════════════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════════════════════ */
+.site-footer{
+  background:var(--ink);padding:3.5rem 3.5rem 1.75rem;
+  border-top:1px solid rgba(244,240,232,.06);
+  position:relative;overflow:hidden;
+}
+
+/* Specific left/right padding for selected sections */
+.site-footer::before{
+  content:'';position:absolute;inset:0;
+  background-image:radial-gradient(circle,rgba(255,255,255,.015) 1px, transparent 1px);
+  background-size:22px 22px;pointer-events:none;
+}
+.footer-inner{
+  display:grid;grid-template-columns:1.7fr repeat(3,1fr);gap:3rem;
+  padding-bottom:2.5rem;border-bottom:1px solid rgba(244,240,232,.07);
+  position:relative;z-index:1;
+}
+@media(max-width:780px){.footer-inner{grid-template-columns:1fr 1fr;gap:2rem}}
+@media(max-width:480px){.footer-inner{grid-template-columns:1fr;gap:1.5rem}}
+.footer-brand{}
+.footer-logo{height:30px;filter:brightness(10);opacity:.9}
+.footer-brand p{font-size:.82rem;color:rgba(244,240,232,.42);line-height:1.7;margin-top:.7rem;max-width:230px}
+.footer-col-title{font-family:var(--ff-mono);font-size:.63rem;letter-spacing:.13em;text-transform:uppercase;color:rgba(244,240,232,.38);margin-bottom:.85rem}
+.footer-links{list-style:none;display:flex;flex-direction:column;gap:.52rem}
+.footer-links a{font-size:.82rem;color:rgba(244,240,232,.55);text-decoration:none;transition:color var(--tr)}
+.footer-links a:hover{color:var(--paper)}
+.footer-bottom{
+  padding-top:1.5rem;display:flex;align-items:center;
+  justify-content:space-between;flex-wrap:wrap;gap:.75rem;position:relative;z-index:1;
+}
+.footer-copy{font-family:var(--ff-mono);font-size:.66rem;color:rgba(244,240,232,.3)}
+.footer-badges{display:flex;gap:.6rem}
+.footer-badge{
+  font-family:var(--ff-mono);font-size:.6rem;padding:.18rem .52rem;
+  border-radius:4px;border:1px solid rgba(244,240,232,.1);color:rgba(244,240,232,.38);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   TOAST
+═══════════════════════════════════════════════════════════ */
+.toast{
+  position:fixed;bottom:1.75rem;left:50%;
+  transform:translateX(-50%) translateY(60px);
+  background:var(--ink);color:var(--paper);
+  padding:.58rem 1.05rem .58rem .82rem;
+  border-radius:30px;font-size:.79rem;font-family:var(--ff-mono);
+  z-index:999;opacity:0;transition:all .3s cubic-bezier(.34,1.56,.64,1);
+  white-space:nowrap;pointer-events:none;
+  box-shadow:0 8px 32px rgba(26,20,16,.3);
+  display:flex;align-items:center;gap:.5rem;
+  border:1px solid rgba(244,240,232,.07);
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE MISC
+═══════════════════════════════════════════════════════════ */
+@media(max-width:580px){
+  .header-nav .nav-link{display:none}
+  .upload-btn{display:none}
+  .stats-item{padding:0 1.25rem}
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MOBILE — SMARTPHONE (≤ 480px)
+═══════════════════════════════════════════════════════════ */
+@media(max-width:480px){
+
+  /* ── Header ── */
+  header{
+    padding:0 1rem;
+    min-height:56px;
+    gap:.75rem;
+  }
+  .logo-img{height:28px}
+  .logo-text{font-size:1.1rem}
+  .menu-btn{width:38px;height:38px}
+
+  /* ── Hero ── */
+  .hero{
+    padding:2rem 1rem 1.75rem;
+  }
+  .hero-inner{
+    grid-template-columns:1fr;
+    gap:1.5rem;
+  }
+  .hero h1{
+    font-size:2rem;
+    letter-spacing:-.015em;
+  }
+  .hero-h1-lead{font-size:.78rem}
+  .hero-h1-light{font-size:.88rem}
+  .hero-p{font-size:.88rem}
+  .hero-badge{font-size:.6rem;padding:.28rem .8rem .28rem .5rem}
+  .hero-btns{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:.6rem;
+    margin-top:1.35rem;
+  }
+  .hero-btns .btn{
+    justify-content:center;
+    font-size:.8rem;
+    padding:.52rem .6rem;
+  }
+  .hero-stats{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:.55rem;
+    margin-top:1.5rem;
+  }
+  .hero-stat-card{
+    padding:.55rem .75rem;
+    gap:.55rem;
+  }
+  .hero-stat-icon{width:30px;height:30px;border-radius:7px}
+  .hero-stat-icon svg{width:12px;height:12px}
+  .hero-stat-num{font-size:1.05rem}
+  .hero-stat-label{font-size:.55rem}
+  .hero-visual{display:none}
+
+  /* ── Stats strip ── */
+  .stats-inner{
+    gap:0;
+    justify-content:space-around;
+    flex-wrap:nowrap;
+  }
+  .stats-item{padding:0 .75rem}
+  .stats-num{font-size:1.15rem}
+  .stats-lbl{font-size:.52rem;letter-spacing:.06em}
+
+  /* ── Section commons ── */
+  .section{padding:.5rem 0}
+  #browse .container,
+  .container{padding:0 .9rem}
+  #browse .container{padding:0 .9rem}
+  .section-title{font-size:1.45rem}
+  .section-sub{font-size:.84rem}
+  .section-header{margin-bottom:1.25rem}
+
+  /* ── Toolbar / Filters ── */
+  .toolbar{
+    grid-template-columns:1fr;
+    gap:.5rem;
+    padding:.9rem;
+    border-radius:var(--rad);
+  }
+  .filter-select{font-size:.82rem;padding:.46rem .85rem;padding-right:2.2rem}
+  .filter-select-full{grid-column:auto}
+  .toolbar-bottom{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:.5rem;
+  }
+  .toolbar-count{font-size:.75rem}
+
+  /* ── Papers grid ── */
+  .papers-grid{
+    grid-template-columns:1fr;
+    gap:.9rem;
+  }
+  .card-body{padding:.9rem 1rem}
+  .card-subject{font-size:.95rem}
+  .card-footer{padding:.75rem 1rem;gap:.4rem}
+  .card-footer .btn{font-size:.77rem;padding:.46rem .55rem}
+
+  /* ── Testimonials ── */
+
+  /* ── Contribute section ── */
+  .contribute-section{
+    padding:2.5rem 1rem;
+    padding-left:1rem;
+    padding-right:1rem;
+  }
+  .contribute-inner{
+    grid-template-columns:1fr;
+    gap:2rem;
+  }
+  .contribute-copy h2{font-size:1.5rem}
+  .contribute-copy > p{font-size:.85rem;max-width:100%}
+  .contribute-actions{flex-direction:column;gap:.6rem}
+  .contribute-actions .btn{justify-content:center;width:100%}
+  .contribute-upload-card{padding:1.25rem}
+  .upload-meta-row{grid-template-columns:1fr}
+  .dz-title{font-size:.82rem}
+  .dz-sub{font-size:.67rem}
+
+  /* ── Footer ── */
+  .site-footer{padding:2.5rem 1rem 1.25rem}
+  .footer-inner{
+    grid-template-columns:1fr;
+    gap:1.5rem;
+    padding-bottom:1.75rem;
+  }
+  .footer-brand p{max-width:100%}
+  .footer-bottom{flex-direction:column;align-items:flex-start;gap:.5rem}
+
+  /* ── Pagination ── */
+  .pagination{padding:1.25rem 0 2rem}
+  .page-btn{width:28px;height:28px;font-size:.75rem}
+
+  /* ── Modal ── */
+  .upload-modal{padding:.75rem .75rem 0}
+  .modal-content{
+    max-height:92vh;
+    border-radius:16px 16px 0 0;
+    margin:auto auto 0;
+  }
+  .modal-header{padding:1.1rem 1.1rem .85rem}
+  .modal-title{font-size:1.15rem}
+  .modal-body{padding:1.1rem}
+  .upload-filter-grid{grid-template-columns:1fr}
+  .upload-filter-full{grid-column:auto}
+  .upload-dropzone{padding:1.4rem 1rem}
+  .dropzone-icon{width:42px;height:42px;border-radius:11px;margin-bottom:.75rem}
+  .dropzone-icon svg{width:18px;height:18px}
+  .dropzone-title{font-size:.88rem}
+  .dropzone-sub{font-size:.72rem}
+
+  /* ── Drawer ── */
+  .d-label{font-size:.82rem}
+  .d-sub{font-size:.67rem}
+
+  /* ── Toast ── */
+  .toast{font-size:.73rem;padding:.5rem .9rem .5rem .7rem;bottom:1.25rem;max-width:90vw;white-space:normal;text-align:center}
+
+  /* ── Buttons general ── */
+  .btn-lg{padding:.62rem 1.3rem;font-size:.87rem}
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MOBILE — LARGER PHONES (481px – 640px)
+═══════════════════════════════════════════════════════════ */
+@media(min-width:481px) and (max-width:640px){
+  .hero{padding:2.5rem 1.25rem 2rem}
+  .hero h1{font-size:2.4rem}
+  .hero-visual{display:none}
+  #browse .container,
+  .container{padding:0 1.1rem}
+  #browse .container{padding:0 1.1rem}
+  .papers-grid{grid-template-columns:1fr}
+  .toolbar{grid-template-columns:1fr 1fr}
+  .filter-select-full{grid-column:1/-1}
+  .contribute-section{padding-left:1.25rem;padding-right:1.25rem}
+  .site-footer{padding:2.5rem 1.25rem 1.5rem}
+  .footer-inner{grid-template-columns:1fr 1fr;gap:1.75rem}
+  .upload-modal{padding:.75rem .75rem 0}
+  .modal-content{border-radius:16px 16px 0 0;margin:auto auto 0}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════ HEADER ═══════ -->
+<header>
+  <a href="/" class="logo-wrap">
+    <img src="https://i.ibb.co/Z1zym34h/1000003223-removebg-preview.png" alt="GetPYQ" class="logo-img">
+  </a>
+  <nav class="header-nav">
+    <a href="#browse" class="nav-link active">Browse</a>
+    <a href="#branches" class="nav-link">Branches</a>
+    <a href="#request" class="nav-link">Request</a>
+    <a href="about.html" class="nav-link">About</a>
+    <a href="#report" class="nav-link">Report</a>
+  </nav>
+  <button class="upload-btn" id="uploadBtn">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+    Upload PYQ
+  </button>
+  <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
+    <span class="hb-bar"></span>
+    <span class="hb-bar"></span>
+    <span class="hb-bar"></span>
+  </button>
+</header>
+
+<!-- ═══════ MOBILE NAV DROPDOWN ═══════ -->
+<div class="mobile-menu-wrap" id="mobileMenuWrap">
+  <div class="mobile-menu" id="mobileMenu">
+
+    <!-- Upload CTA -->
+    <div class="mn-upload-row">
+      <span class="mn-upload-label">Quick Action</span>
+      <button class="mn-upload-btn" id="mobileUploadBtn">
+        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        Upload PYQ
+      </button>
+    </div>
+
+    <!-- Nav grid -->
+    <div class="mn-inner">
+      <div class="mn-grid">
+        <a href="#browse" class="mn-item active" id="mn-browse">
+          <div class="mn-icon">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </div>
+          <span class="mn-label">Browse</span>
+        </a>
+        <a href="#branches" class="mn-item" id="mn-branches">
+          <div class="mn-icon">
+            <svg viewBox="0 0 24 24"><path d="M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z"/></svg>
+          </div>
+          <span class="mn-label">Branches</span>
+        </a>
+        <div class="mn-item" id="mn-request" style="cursor:pointer">
+          <div class="mn-icon">
+            <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4z"/></svg>
+          </div>
+          <span class="mn-label">Request</span>
+          <span class="mn-badge">New</span>
+        </div>
+        <a href="about.html" class="mn-item">
+          <div class="mn-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+          </div>
+          <span class="mn-label">About</span>
+        </a>
+        <div class="mn-item" id="mn-report" style="cursor:pointer">
+          <div class="mn-icon">
+            <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+          <span class="mn-label">Report</span>
+        </div>
+        <div class="mn-item" id="mn-github" style="cursor:pointer">
+          <div class="mn-icon">
+            <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+          </div>
+          <span class="mn-label">GitHub ★</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ═══════ UPLOAD MODAL OVERLAY ═══════ -->
+<div class="modal-overlay" id="uploadModalOverlay"></div>
+
+<!-- ═══════ UPLOAD MODAL ═══════ -->
+<div class="upload-modal" id="uploadModal" role="dialog" aria-modal="true" aria-label="Upload PYQ paper">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 class="modal-title">Upload Paper</h2>
+      <button class="modal-close-btn" id="modalCloseBtn" aria-label="Close modal">
+        <svg viewBox="0 0 14 14"><line x1="1" y1="1" x2="13" y2="13"/><line x1="13" y1="1" x2="1" y2="13"/></svg>
+      </button>
+    </div>
+    
+    <div class="modal-body">
+      <div class="upload-form">
+        <!-- File Upload Area -->
+        <div class="upload-dropzone" id="uploadDropzone">
+          <div class="dropzone-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"></path>
+              <polyline points="17 8 12 3 7 8"></polyline>
+              <line x1="12" y1="3" x2="12" y2="15"></line>
+            </svg>
+          </div>
+          <div class="dropzone-content">
+            <div class="dropzone-title">Drop your PDF here</div>
+            <div class="dropzone-sub">or click to browse</div>
+          </div>
+          <input type="file" id="uploadFile" accept=".pdf,.doc,.docx" style="display:none;">
+        </div>
+
+        <!-- Filter Fields -->
+        <div class="upload-filters">
+          <h3 class="upload-section-title">Paper Details</h3>
+          <div class="upload-filter-grid">
+            <div class="upload-filter-field upload-filter-full">
+              <label class="upload-filter-label">Subject / Paper</label>
+              <select class="upload-filter-select" id="uploadSubject">
+                <option>Select Subject/Paper</option>
+                <option>Data Structures & Algorithms</option>
+                <option>Thermodynamics</option>
+                <option>Database Management Systems</option>
+                <option>Computer Networks</option>
+                <option>Fluid Mechanics</option>
+                <option>Engineering Mathematics</option>
+                <option>Power Systems</option>
+                <option>Digital Electronics</option>
+                <option>Operating Systems</option>
+                <option>Theory of Computation</option>
+                <option>Other</option>
+              </select>
+            </div>
+
+            <div class="upload-filter-field">
+              <label class="upload-filter-label">Branch</label>
+              <select class="upload-filter-select" id="uploadBranch">
+                <option>Select Branch</option>
+                <option>Computer Science</option>
+                <option>Mechanical</option>
+                <option>Electrical</option>
+                <option>Civil</option>
+                <option>Electronics & Comm.</option>
+              </select>
+            </div>
+
+            <div class="upload-filter-field">
+              <label class="upload-filter-label">Semester</label>
+              <select class="upload-filter-select" id="uploadSemester">
+                <option>Select Semester</option>
+                <option>Sem 1</option>
+                <option>Sem 2</option>
+                <option>Sem 3</option>
+                <option>Sem 4</option>
+                <option>Sem 5</option>
+                <option>Sem 6</option>
+                <option>Sem 7</option>
+                <option>Sem 8</option>
+              </select>
+            </div>
+
+            <div class="upload-filter-field">
+              <label class="upload-filter-label">Academic Year</label>
+              <select class="upload-filter-select" id="uploadYear">
+                <option>Select Academic Year</option>
+                <option>2025-26</option>
+                <option>2024-25</option>
+                <option>2023-24</option>
+                <option>2022-23</option>
+                <option>2021-22</option>
+                <option>2020-21</option>
+              </select>
+            </div>
+
+            <div class="upload-filter-field">
+              <label class="upload-filter-label">Paper Type</label>
+              <select class="upload-filter-select" id="uploadPaperType">
+                <option>Select Paper Type</option>
+                <option>Internal</option>
+                <option>External</option>
+              </select>
+            </div>
+
+            <div class="upload-filter-field">
+              <label class="upload-filter-label">Exam Type</label>
+              <select class="upload-filter-select" id="uploadType">
+                <option>Select Type</option>
+                <option>End Sem</option>
+                <option>Mid Sem</option>
+                <option>Internal Assessment</option>
+                <option>Model Paper</option>
+                <option>Supplementary</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button class="upload-submit-btn" id="uploadSubmitBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2v20M2 12h20"/>
+          </svg>
+          Upload Paper
+        </button>
+
+        <div class="upload-footer-note">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/>
+          </svg>
+          Help fellow students by sharing your papers
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ TOAST ═══════ -->
+<div class="toast" id="toast"></div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     HERO
+═══════════════════════════════════════════════════════════ -->
+<div class="hero">
+  <div class="hero-inner">
+
+    <!-- Left: Copy -->
+    <div class="hero-copy">
+      <div class="hero-badge">
+        <span class="hero-badge-dot"></span>
+        4,800+ papers · Updated daily
+      </div>
+
+      <h1>
+        <span class="hero-h1-lead">Engineering PYQ Archive</span>
+        Exams Made <span class="hero-h1-em">Easy</span> with<br>Previous Year Questions
+        </h1>
+
+      <p class="hero-p">Browse <strong>4,800+ previous year question papers</strong> across all branches, semesters &amp; universities. Just open and study. <strong>No account needed.</strong></p>
+
+      <div class="hero-btns">
+        <a href="#browse" class="btn btn-primary btn-lg">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          Browse PYQs
+        </a>
+        <a href="#contribute" class="btn btn-outline btn-lg">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          Upload a Paper
+        </a>
+      </div>
+
+      <div class="hero-stats">
+        <div class="hero-stat-card">
+          <div class="hero-stat-icon">
+            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          </div>
+          <div><div class="hero-stat-num">4,800+</div><div class="hero-stat-label">PYQ Papers</div></div>
+        </div>
+        <div class="hero-stat-card">
+          <div class="hero-stat-icon green">
+            <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          </div>
+          <div><div class="hero-stat-num">100%</div><div class="hero-stat-label">Free Forever</div></div>
+        </div>
+        <div class="hero-stat-card">
+          <div class="hero-stat-icon blue">
+            <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+          </div>
+          <div><div class="hero-stat-num">12k+</div><div class="hero-stat-label">Students</div></div>
+        </div>
+        <div class="hero-stat-card">
+          <div class="hero-stat-icon gold">
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <div><div class="hero-stat-num">4.9★</div><div class="hero-stat-label">Rated</div></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Right: image -->
+    <div class="hero-visual">
+      <img src="https://i.ibb.co/357Fcgkf/1000003193-removebg-preview.png" alt="GetPYQ illustration" style="width:100%;max-width:696px;height:auto;display:block;margin:0 auto;">
+    </div>
+
+  </div>
+</div>
+
+
+
+<!-- ═══════ BROWSE ═══════ -->
+<div class="section" id="browse">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <div class="section-label">Browse PYQs</div>
+        <h2 class="section-title">Find Your <em>Papers</em></h2>
+        <p class="section-sub">Filter by branch, semester, subject, year, or paper type — 4,800+ papers and counting.</p>
+      </div>
+    </div>
+    <div class="toolbar">
+      <select class="filter-select"><option>All Branches</option><option>Computer Science</option><option>Mechanical</option><option>Electrical</option><option>Civil</option><option>Electronics & Comm.</option></select>
+      <select class="filter-select"><option>All Semesters</option><option>Sem 1</option><option>Sem 2</option><option>Sem 3</option><option>Sem 4</option><option>Sem 5</option><option>Sem 6</option><option>Sem 7</option><option>Sem 8</option></select>
+      <select class="filter-select filter-select-full"><option>All Subjects / Papers</option><option>Data Structures & Algorithms</option><option>Thermodynamics</option><option>Database Management Systems</option><option>Computer Networks</option><option>Fluid Mechanics</option><option>Engineering Mathematics</option><option>Power Systems</option><option>Digital Electronics</option><option>Operating Systems</option><option>Theory of Computation</option></select>
+      <select class="filter-select"><option>All Years</option><option>2025</option><option>2024</option><option>2023</option><option>2022</option><option>2021</option></select>
+      <select class="filter-select"><option>All Types</option><option>End Sem</option><option>Mid Sem</option><option>Internal Assessment</option><option>Model Paper</option><option>Supplementary</option></select>
+      <div class="toolbar-bottom">
+        <button class="btn btn-outline btn-sm" id="resetBtn" style="color:var(--cr);border-color:var(--cr);border-radius:6px;padding:.48rem 1.1rem;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 100-5.5"/></svg>
+          Reset Filters
+        </button>
+        <span class="toolbar-count">Showing 9 PYQ papers</span>
+      </div>
+    </div>
+
+    <div class="papers-grid">
+      <div class="card" data-subject="Data Structures and Algorithms – VTU End Sem 2024">
+        <div class="card-body">
+          <div class="card-subject">Data Structures and Algorithms</div>
+          <div class="card-meta">VTU <span class="card-meta-dot"></span> End Sem <span class="card-meta-dot"></span> 2024</div>
+          <div class="card-tags"><span class="tag tag-branch">Computer Science</span><span class="tag tag-sem">Sem 3</span><span class="tag tag-year">2024</span></div>
+        </div>
+        <div class="card-footer">
+          <button class="btn btn-primary btn-sm"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> Preview</button>
+          <button class="btn btn-ghost btn-sm"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Download</button>
+        </div>
+      </div>
+
+      <div class="card" data-subject="Thermodynamics I – SPPU End Sem 2023">
+        <div class="card-body">
+          <div class="card-subject">Thermodynamics I</div>
+          <div class="card-meta">SPPU <span class="card-meta-dot"></span> End Sem <span class="card-meta-dot"></span> 2023</div>
+          <div class="card-tags"><span class="tag tag-branch">Mechanical</span><span class="tag tag-sem">Sem 4</span><span class="tag tag-year">2023</span></div>
+        </div>
+        <div class="card-footer">
+          <button class="btn btn-primary btn-sm"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> Preview</button>
+          <button class="btn btn-ghost btn-sm"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Download</button>
+        </div>
+      </div>
+
+      <div class="card" data-subject="Digital Signal Processing – GTU End Sem 2024">
+        <div class="card-body">
+          <div class="card-subject">Digital Signal Processing</div>
+          <div class="card-meta">GTU <span class="card-meta-dot"></span> End Sem <span class="card-meta-dot"></span> 2024</div>
+          <div class="card-tags"><span class="tag tag-branch">Electrical</span><span class="tag tag-sem">Sem 5</span><span class="tag tag-year">2024</span></div>
+        </div>
+        <div class="card-footer">
+          <button class="btn btn-primary btn-sm"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> Preview</button>
+          <button class="btn btn-ghost btn-sm"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Download</button>
+        </div>
+      </div>
+
+      <div class="card" data-subject="Database Management Systems – Mumbai Univ. Mid Sem 2024">
+        <div class="card-body">
+          <div class="card-subject">Database Management Systems</div>
+          <div class="card-meta">Mumbai Univ. <span class="card-meta-dot"></span> Mid Sem <span class="card-meta-dot"></span> 2024</div>
+          <div class="card-tags"><span class="tag tag-branch">Computer Science</span><span class="tag tag-sem">Sem 4</span><span class="tag tag-hot">Popular</span></div>
+        </div>
+        <div class="card-footer">
+          <button class="btn btn-primary btn-sm"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> Preview</button>
+          <button class="btn btn-ghost btn-sm"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Download</button>
+        </div>
+      </div>
+
+      <div class="card" data-subject="Structural Analysis II – VTU End Sem 2023">
+        <div class="card-body">
+          <div class="card-subject">Structural Analysis II</div>
+          <div class="card-meta">VTU <span class="card-meta-dot"></span> End Sem <span class="card-meta-dot"></span> 2023</div>
+          <div class="card-tags"><span class="tag tag-branch">Civil</span><span class="tag tag-sem">Sem 6</span><span class="tag tag-year">2023</span></div>
+        </div>
+        <div class="card-footer">
+          <button class="btn btn-primary btn-sm"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> Preview</button>
+          <button class="btn btn-ghost btn-sm"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Download</button>
+        </div>
+      </div>
+
+      <div class="card" data-subject="Microcontrollers & Embedded Systems – RTU End Sem 2024">
+        <div class="card-body">
+          <div class="card-subject">Microcontrollers & Embedded Systems</div>
+          <div class="card-meta">RTU <span class="card-meta-dot"></span> End Sem <span class="card-meta-dot"></span> 2024</div>
+          <div class="card-tags"><span class="tag tag-branch">Electronics & Comm.</span><span class="tag tag-sem">Sem 5</span><span class="tag tag-year">2024</span></div>
+        </div>
+        <div class="card-footer">
+          <button class="btn btn-primary btn-sm"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> Preview</button>
+          <button class="btn btn-ghost btn-sm"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Download</button>
+        </div>
+      </div>
+
+      <div class="card" data-subject="Computer Networks – SPPU End Sem 2025">
+        <div class="card-body">
+          <div class="card-subject">Computer Networks</div>
+          <div class="card-meta">SPPU <span class="card-meta-dot"></span> End Sem <span class="card-meta-dot"></span> 2025</div>
+          <div class="card-tags"><span class="tag tag-branch">Computer Science</span><span class="tag tag-sem">Sem 6</span><span class="tag tag-hot">New</span></div>
+        </div>
+        <div class="card-footer">
+          <button class="btn btn-primary btn-sm"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> Preview</button>
+          <button class="btn btn-ghost btn-sm"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Download</button>
+        </div>
+      </div>
+
+      <div class="card" data-subject="Engineering Mathematics III – VTU End Sem 2023">
+        <div class="card-body">
+          <div class="card-subject">Engineering Mathematics III</div>
+          <div class="card-meta">VTU <span class="card-meta-dot"></span> End Sem <span class="card-meta-dot"></span> 2023</div>
+          <div class="card-tags"><span class="tag tag-branch">Mechanical</span><span class="tag tag-sem">Sem 3</span><span class="tag tag-year">2023</span></div>
+        </div>
+        <div class="card-footer">
+          <button class="btn btn-primary btn-sm"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> Preview</button>
+          <button class="btn btn-ghost btn-sm"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Download</button>
+        </div>
+      </div>
+
+      <div class="card" data-subject="Power Systems Engineering – GTU Mid Sem 2024">
+        <div class="card-body">
+          <div class="card-subject">Power Systems Engineering</div>
+          <div class="card-meta">GTU <span class="card-meta-dot"></span> Mid Sem <span class="card-meta-dot"></span> 2024</div>
+          <div class="card-tags"><span class="tag tag-branch">Electrical</span><span class="tag tag-sem">Sem 7</span><span class="tag tag-year">2024</span></div>
+        </div>
+        <div class="card-footer">
+          <button class="btn btn-primary btn-sm"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> Preview</button>
+          <button class="btn btn-ghost btn-sm"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Download</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════ TESTIMONIALS ═══════ -->
+
+
+<!-- ═══════ CONTRIBUTE ═══════ -->
+<section class="contribute-section" id="contribute">
+  <div class="container">
+    <div class="contribute-inner">
+      <div class="contribute-copy">
+        <div class="contribute-eyebrow">Contribute</div>
+        <h2>Have a Paper <em>We're Missing?</em></h2>
+        <p>Help your fellow students by uploading question papers from your university. Every contribution grows the archive for everyone.</p>
+        <div class="contribute-perks">
+          <div class="perk-row">
+            <div class="perk-icon rust">
+              <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+            </div>
+            <div class="perk-text">
+              <div class="perk-title">Help thousands of students</div>
+              <div class="perk-desc">Your paper reaches students across 50+ universities instantly</div>
+            </div>
+          </div>
+          <div class="perk-row">
+            <div class="perk-icon gold">
+              <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            </div>
+            <div class="perk-text">
+              <div class="perk-title">Get credited as a contributor</div>
+              <div class="perk-desc">Your name appears on every paper you upload — forever</div>
+            </div>
+          </div>
+          <div class="perk-row">
+            <div class="perk-icon green">
+              <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            </div>
+            <div class="perk-text">
+              <div class="perk-title">Free &amp; no account needed</div>
+              <div class="perk-desc">Upload instantly — no sign-up, no barriers, no fees</div>
+            </div>
+          </div>
+        </div>
+        <div class="contribute-actions">
+          <button class="btn btn-primary">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            Upload a Paper
+          </button>
+          <button class="btn btn-ghost">Learn More</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ FOOTER ═══════ -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <img src="https://i.ibb.co/Z1zym34h/1000003223-removebg-preview.png" alt="GetPYQ" class="footer-logo">
+        <p>A free, community-driven archive of previous year question papers for engineering students across India.</p>
+      </div>
+      <div>
+        <div class="footer-col-title">Browse</div>
+        <ul class="footer-links">
+          <li><a href="#">All Papers</a></li>
+          <li><a href="#">By Branch</a></li>
+          <li><a href="#">By University</a></li>
+          <li><a href="#">By Year</a></li>
+          <li><a href="#">Trending</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Contribute</div>
+        <ul class="footer-links">
+          <li><a href="#">Upload Paper</a></li>
+          <li><a href="#">Report an Issue</a></li>
+          <li><a href="#">Request a Paper</a></li>
+          <li><a href="#">GitHub</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Info</div>
+        <ul class="footer-links">
+          <li><a href="about.html">About</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Use</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2026 GetPYQ — Free for all students. No backend connected (prototype).</span>
+      <div class="footer-badges">
+        <span class="footer-badge">Open Source</span>
+        <span class="footer-badge">Ad-free</span>
+        <span class="footer-badge">No Login</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── Reset Filters
+document.getElementById('resetBtn').addEventListener('click', () => {
+  document.querySelectorAll('.toolbar .filter-select').forEach(s => s.selectedIndex = 0);
+  showToast('Filters reset', '↺');
+});
+
+// ── Mobile Dropdown Menu
+const menuBtn    = document.getElementById('menuBtn');
+const mobileMenu = document.getElementById('mobileMenu');
+
+function openMenu(){
+  mobileMenu.classList.add('open');
+  menuBtn.classList.add('open');
+  menuBtn.setAttribute('aria-expanded','true');
+}
+function closeMenu(){
+  mobileMenu.classList.remove('open');
+  menuBtn.classList.remove('open');
+  menuBtn.setAttribute('aria-expanded','false');
+}
+if(menuBtn && mobileMenu){
+  menuBtn.addEventListener('click', () =>
+    mobileMenu.classList.contains('open') ? closeMenu() : openMenu()
+  );
+  // Close when clicking outside
+  document.addEventListener('click', e => {
+    if(!menuBtn.contains(e.target) && !mobileMenu.contains(e.target)) closeMenu();
+  });
+  document.addEventListener('keydown', e => e.key==='Escape' && closeMenu());
+
+  // Close on nav link tap
+  mobileMenu.querySelectorAll('a.mn-item').forEach(a => {
+    a.addEventListener('click', () => setTimeout(closeMenu, 120));
+  });
+
+  // Mobile Upload btn → trigger main upload modal
+  const mobileUploadBtn = document.getElementById('mobileUploadBtn');
+  if(mobileUploadBtn){
+    mobileUploadBtn.addEventListener('click', () => {
+      closeMenu();
+      setTimeout(() => document.getElementById('uploadBtn') && document.getElementById('uploadBtn').click(), 150);
+    });
+  }
+
+  // Action items
+  const mnRequest = document.getElementById('mn-request');
+  const mnReport  = document.getElementById('mn-report');
+  const mnGithub  = document.getElementById('mn-github');
+  if(mnRequest) mnRequest.addEventListener('click', () => { closeMenu(); setTimeout(() => showToast('Paper request coming soon!', '📝'), 200); });
+  if(mnReport)  mnReport.addEventListener('click',  () => { closeMenu(); setTimeout(() => showToast('Issue reported — thank you!', '🚩'), 200); });
+  if(mnGithub)  mnGithub.addEventListener('click',  () => { closeMenu(); setTimeout(() => showToast('Opening GitHub…', '⭐'), 200); });
+}
+
+// ── Toast
+const toastEl = document.getElementById('toast');
+let toastTimer;
+function showToast(msg, icon='✓'){
+  clearTimeout(toastTimer);
+  toastEl.innerHTML = icon + ' ' + msg;
+  toastEl.classList.add('show');
+  toastTimer = setTimeout(() => toastEl.classList.remove('show'), 2800);
+}
+
+// ── CTA Upload
+const ctaPanel = document.getElementById('ctaUploadPanel');
+const ctaInput = document.getElementById('ctaUploadInput');
+const ctaSubmit = document.getElementById('ctaSubmitBtn');
+if(ctaPanel && ctaInput){
+  ctaPanel.addEventListener('click', () => ctaInput.click());
+  ctaInput.addEventListener('change', e => {
+    const file = e.target.files[0];
+    if(!file) return;
+    showToast('File selected: ' + file.name.slice(0,28), '📎');
+    ctaInput.value = '';
+  });
+  ctaPanel.addEventListener('dragover', e => { e.preventDefault(); ctaPanel.style.borderColor='var(--cr)'; });
+  ctaPanel.addEventListener('dragleave', () => ctaPanel.style.borderColor='');
+  ctaPanel.addEventListener('drop', e => {
+    e.preventDefault(); ctaPanel.style.borderColor='';
+    const file = e.dataTransfer.files[0];
+    if(file) showToast('File dropped: ' + file.name.slice(0,28), '📎');
+  });
+}
+if(ctaSubmit) ctaSubmit.addEventListener('click', () => showToast('Paper submitted — thank you! 🎉', '✓'));
+
+// ── Upload Modal — Simplified
+setTimeout(() => {
+  const uploadBtn = document.getElementById('uploadBtn');
+  const uploadModal = document.getElementById('uploadModal');
+  const uploadModalOverlay = document.getElementById('uploadModalOverlay');
+  const modalCloseBtn = document.getElementById('modalCloseBtn');
+  
+  if(uploadBtn && uploadModal && uploadModalOverlay){
+    // Open modal
+    uploadBtn.onclick = function(){
+      uploadModal.classList.add('active');
+      uploadModalOverlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      console.log('Modal opened');
+    };
+    
+    // Close modal
+    function closeModal(){
+      uploadModal.classList.remove('active');
+      uploadModalOverlay.classList.remove('active');
+      document.body.style.overflow = '';
+      console.log('Modal closed');
+    }
+    
+    if(modalCloseBtn){
+      modalCloseBtn.onclick = closeModal;
+    }
+    uploadModalOverlay.onclick = closeModal;
+    
+    // Prevent closing when clicking inside modal
+    const modalContent = document.querySelector('.modal-content');
+    if(modalContent){
+      modalContent.onclick = function(e){
+        e.stopPropagation();
+      };
+    }
+    
+    // File upload
+    const uploadDropzone = document.getElementById('uploadDropzone');
+    const uploadFile = document.getElementById('uploadFile');
+    
+    if(uploadDropzone && uploadFile){
+      uploadDropzone.onclick = function(){
+        uploadFile.click();
+      };
+      
+      uploadFile.onchange = function(e){
+        const file = e.target.files[0];
+        if(file){
+          showToast('File selected: ' + file.name.slice(0, 25), '📎');
+          uploadFile.value = '';
+        }
+      };
+      
+      // Drag & drop
+      uploadDropzone.ondragover = function(e){
+        e.preventDefault();
+        uploadDropzone.classList.add('active');
+      };
+      
+      uploadDropzone.ondragleave = function(){
+        uploadDropzone.classList.remove('active');
+      };
+      
+      uploadDropzone.ondrop = function(e){
+        e.preventDefault();
+        uploadDropzone.classList.remove('active');
+        const file = e.dataTransfer.files[0];
+        if(file){
+          if(file.type === 'application/pdf'){
+            showToast('File ready: ' + file.name.slice(0, 25), '📄');
+          } else {
+            showToast('Only PDF files allowed', '⚠️');
+          }
+        }
+      };
+    }
+    
+    // Submit
+    const uploadSubmitBtn = document.getElementById('uploadSubmitBtn');
+    if(uploadSubmitBtn){
+      uploadSubmitBtn.onclick = function(){
+        const subject = document.getElementById('uploadSubject').value;
+        const branch = document.getElementById('uploadBranch').value;
+        const semester = document.getElementById('uploadSemester').value;
+        const year = document.getElementById('uploadYear').value;
+        const paperType = document.getElementById('uploadPaperType').value;
+        
+        if(subject === 'Select Subject/Paper'){
+          showToast('Select subject/paper', '⚠️');
+          return;
+        }
+        if(branch === 'Select Branch'){
+          showToast('Select branch', '⚠️');
+          return;
+        }
+        if(semester === 'Select Semester'){
+          showToast('Select semester', '⚠️');
+          return;
+        }
+        if(year === 'Select Academic Year'){
+          showToast('Select academic year', '⚠️');
+          return;
+        }
+        if(paperType === 'Select Paper Type'){
+          showToast('Select paper type', '⚠️');
+          return;
+        }
+        
+        closeModal();
+        setTimeout(() => showToast('Paper submitted! 🎉', '✓'), 300);
+      };
+    }
+  }
+}, 100);
+
+// ── WhatsApp share buttons
+const waSVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>`;
+function makeWaBtn(subject){
+  const text = encodeURIComponent('📄 Check this PYQ: ' + subject + ' — GetPYQ: ' + window.location.href);
+  const btn = document.createElement('a');
+  btn.href = 'https://wa.me/?text=' + text;
+  btn.target = '_blank';btn.rel = 'noopener noreferrer';
+  btn.className = 'btn btn-wa btn-sm';btn.title = 'Share on WhatsApp';
+  btn.innerHTML = waSVG;
+  return btn;
+}
+document.querySelectorAll('.card[data-subject]').forEach(card => {
+  const footer = card.querySelector('.card-footer');
+  if(footer) footer.appendChild(makeWaBtn(card.dataset.subject));
+});
+</script>
+</body>
+</html>
